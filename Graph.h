@@ -14,10 +14,12 @@ public:
     {}
 };
 
+
 //Undirtect connected graph
 class Graph
 {
 public:
+	
     // Add a vertex
     // precond: node never appear in the graph before
     void addVertex( const std::string& node );
@@ -28,6 +30,17 @@ public:
     // pre-cond: the edge between sourceName and targetName does not exist
     void addEdge( std::string sourceName, std::string targetName, int weight )
         throw (GraphException);
+
+    // Remove a vertex and related arcs
+    // Throw a GraphException if such vertex does not exist
+    void removeVertex( std::string nodeName )
+        throw(GraphException);
+
+    // Remove an edge 
+    // Throw a GraphException if both vertices are not in the graph
+    // Do nothing if the edge does not exist
+    void removeEdge( std::string srcName, std::string destName )
+        throw(GraphException);
 
     // Depth-first traversal: visit ALL vertices once
     // During the visit, print edges in the order they are visited
@@ -44,10 +57,14 @@ public:
 
     // print the graph
     friend std::ostream& operator << (std::ostream&, const Graph&);
-
+	void emptyVist();
     /////////////////////////////////////////////////////////////
     // Add member functions and data here
-    // You must use either adjacency list in the form of
-    // std::map< std::string, std::map<sstd::tring, int> >    graph;
+    // You can use either adjacency list or adjacency matrix
     /////////////////////////////////////////////////////////////
+	
+private:
+	std::map<std::string, std::map<std::string, int> > adjacencyList;
+	std::map<std::string, bool> vistedNodes;
+	int numNodes = 0;
 };
